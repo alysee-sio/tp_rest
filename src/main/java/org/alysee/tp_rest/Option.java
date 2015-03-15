@@ -5,9 +5,31 @@
  */
 package org.alysee.tp_rest;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 /**
  *
  * @author Alysee
+ */
+
+/*
+   Utilisation pour le SOAP
+ */
+// XMLRootElement : permet de sérialiser l'objet
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(                                                  
+  name = "option",
+  namespace="http://mbp-de-alysee:8080/tp_rest/Sondage"
+)
+
+/**
+   Classe Option : Correspond à la réponse d'un sondage qui comprend :
+        un id : identifiant unique pour chaque réponse possible
+        un texte : qui est la réponse et
+        un nombre de vote.
  */
 public class Option {
     

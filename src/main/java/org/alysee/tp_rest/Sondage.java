@@ -6,13 +6,34 @@
 package org.alysee.tp_rest;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Alysee
  */
+
+/*
+   Utilisation pour le SOAP
+*/
+// XMLRootElement : permet de sérialiser l'objet
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(                                                  
+  name = "sondage",
+  namespace="http://mbp-de-alysee:8080/tp_rest/Sondage"
+)
+
+/*
+   Classe Sondage : Correspond à la question qui comprend :
+        un id : identifiant unique pour chaque question
+        un intitulé : texte de la question et 
+        un ArrayList d'Option : qui va contenir les différentes options possible
+        
+*/
 public class Sondage {
     
     private int id;
@@ -53,6 +74,11 @@ public class Sondage {
         this.options = options;
     }
     
+    /**
+     * addOption : un sondage créé ses options, on ajoute donc une option à un sondage
+     * @param id
+     * @param rep 
+     */
     public void addOption (int id, String rep){
         Option option = new Option(id,rep,0);
         options.add(option);

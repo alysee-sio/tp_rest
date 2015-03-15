@@ -24,6 +24,12 @@ import javax.ws.rs.core.Response;
  *
  * @author Alysee
  */
+/*
+    @Path : chemin de mon URL qui commence par défaut : 
+        http://localhost:8080/tp_rest/webresources
+    à laquelle le slash d'après sera /sondage
+
+ */
 @Path("sondage")
 public class SondageResource {
 
@@ -41,11 +47,16 @@ public class SondageResource {
      * @return an instance of org.alysee.tp_rest.Sondage
      */
     
-    //Création d'un questionnaire
+    /**
+     *  1ère étape : Création d'un questionnaire 
+     *  http://localhost:8080/tp_rest/webresources/sondage/init
+     *  Questionnaire composé de deux sondages 
+     * @return Response "OK" Texte : "Questionnaire créé"
+     */
     @Path("init")
     @GET
     @Produces("application/json")
-    public Response initJson() {
+    public Response createQuestionnaire() {
        
         Questionnaire q = Questionnaire.getInstance();
         
@@ -66,16 +77,26 @@ public class SondageResource {
         
     }
     
-    //Consulter le questionnaire ( = liste des sondages)
+    /**
+     *  2ème étape : Consultation d'un questionnaire = liste de tous les sondage
+     *  http://localhost:8080/tp_rest/webresources/sondage/consulterQuestionnaire
+     * @return au format JSON, les sondages
+     */
     @Path("consulterQuestionnaire")
     @GET
     @Produces("application/json")
-    public Questionnaire getJson() {
+    public Questionnaire getQuestionnaire() {
         Questionnaire q = Questionnaire.getInstance();
         return q;
     }
     
-    //Consultation d'un sondage en particulier avec l'ID
+    /**
+     *  3ème étape : Consultation d'un sondage
+     *  http://localhost:8080/tp_rest/webresources/sondage/consulterUnSondage/1
+     * Parcours de la liste des sondages, si l'id est égale à l'id donné alors on revoi le sondage, sinon une erreur
+     * @param id : Correspond à l'identifiant d'un sondage
+     * @return au format JSON, le sondage correspondant à l'id donné
+     */
     @Path("consulterUnSondage/{id}")
     @GET
     @Produces("application/json")
@@ -91,18 +112,29 @@ public class SondageResource {
 
     }
     
-    //Création d'un sondage
+    /**
+     *  4ème étape : Création d'un sondage
+     *  http://localhost:8080/tp_rest/webresources/sondage/creationSondage
+     * Ajout du sondage créé au Questionnaire, renvoi le sondage
+     * @param sondage 
+     * @return le sondage créé dans le questionnaire
+     */
     @Path("creationSondage")
     @POST
     @Produces("application/json")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createSondageInJSON(Sondage sondage) { 
+    public Response createSondage(Sondage sondage) { 
         Questionnaire.getInstance().addSondage(sondage);
         return Response.status(Response.Status.CREATED).entity(sondage).build(); 
     }
-    
-    
-    //Suppression d'un sondage
+
+    /**
+     *  5ème étape : Suppression d'un sondage
+     *  http://localhost:8080/tp_rest/webresources/sondage/suppressionSondage/1
+     * Parcours de la liste des sondages, si l'id est égale à l'id donné alors on supprime de la liste le sondage, sinon une erreur
+     * @param id : Corresspond à l'identifiant d'un sondage
+     * @return une Response
+     */
     @Path("suppressionSondage/{id}")
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
@@ -118,12 +150,19 @@ public class SondageResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
-    
+    /**
+     *  6ème étape : Modification d'un sondage
+     *  http://localhost:8080/tp_rest/webresources/sondage/modifierSondage
+     * Parcours de la liste des sondages, si le sondage donné à pour id un sondage existant,
+     * alors je le supprime et ajoute à la liste le nouveau, retourn le sondage sinon une erreur
+     * @param sondageParam : Sondage que l'on modifi
+     * @return au format JSON, le sondage modifié
+     */
     @Path("modifierSondage")
     @PUT
     @Produces("application/json")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putJson(Sondage sondageParam) {
+    public Response updateSondage(Sondage sondageParam) {
         
         ArrayList<Sondage> listeSondage = Questionnaire.getInstance().getSondages();
         for (Sondage sondage : listeSondage){

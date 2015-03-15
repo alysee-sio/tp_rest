@@ -9,7 +9,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
+ *  Page générée automatiquement, sert pour savoir le début du path :
+ *       http://localhost:8080/tp_rest/webresources
  * @author Alysee
  */
 @javax.ws.rs.ApplicationPath("webresources")
@@ -28,6 +29,8 @@ public class ApplicationConfig extends Application {
      * all resources defined in the project.
      * If required, comment out calling this method in getClasses().
      */
+    
+    // Classe sur laquelle j'ai mis mes @GET, @POST, @PUT et @DELETE
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(org.alysee.tp_rest.SondageResource.class);
     }
